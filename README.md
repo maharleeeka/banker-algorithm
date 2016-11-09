@@ -1,1 +1,2 @@
-# banker-algorithm
+# Banker's Algorithm Simulation - 
+## Deadlocks
