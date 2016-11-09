@@ -1,2 +1,2 @@
-# Banker's Algorithm Simulation - 
-## Deadlocks
+# Banker's Algorithm Simulation 
+## Deadlocks - Prevention & Avoidance
