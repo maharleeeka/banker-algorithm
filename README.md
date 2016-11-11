@@ -1,8 +1,4 @@
-# Banker's Algorithm Simulation 
-## Deadlocks - Prevention & Avoidance
-
-BANKER'S ALGORITHM
-
+#BANKER'S ALGORITHM
 How to run the program:
 1. Click the deadlocks.cpp
 
@@ -25,17 +21,9 @@ You will be ask to choose between 3 numbers
 		-resource allocation of each process
 		-maximum demand of each process
 		-available resources
-	**It will display the matrices for resource allocation, maximum demand and needed 
-
-resources
+	**It will display the matrices for resource allocation, maximum demand and needed resources
 	**It will display the system state and safe sequence (if there is)
-	
-	If the state of the system is SAFE, the program will ask if you want to add new 
-
-request. If yes, you will be asked to choose which process to change the resources. Please only 
-
-enter the process number (1,2,3).
-	
+	If the state of the system is SAFE, the program will ask if you want to add new request. If yes, you will be asked to choose which process to change the resources. Please only enter the process number (1,2,3).
 	**It will again display the matrices, system state and safe sequence.
 
 LIMITATIONS:
