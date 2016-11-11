@@ -302,17 +302,32 @@ void deadlockAvoidance(vector<Process> proc_list, vector<int> needed_resources, 
     cout<<"\nSAFE SEQUENCE: "<<safe_sequence + " > ";
 
     /*******************/
-    int choice;
+    int choice, newP;
     if(state){
-        cout<<"ADD NEW REQUEST?/n1. Yes\n2. No\nEnter choice: ";
+        cout<<"\nADD NEW REQUEST?\n1. Yes\n2. No\nEnter choice: ";
         cin>>choice;
-        while(choice!=1 || choice!=2){
-            cout<<"ADD NEW REQUEST?/n1. Yes\n2. No\nEnter choice: ";
+        while(choice!=1 && choice!=2){
+            cout<<"\nADD NEW REQUEST?\n1. Yes\n2. No\nEnter choice: ";
             cin>>choice;
         }
 
         if(choice == 1){
-            cout<<"WHICH PROCESS TO CHANGE?\n";
+            cout<<"\nWHICH PROCESS TO CHANGE?\n";
+            showMatrices(proc_list, proc_list.size(), 1);
+            cout<<"Process <enter only a number>: ";
+            cin>>newP;
+
+
+            i = 0;
+            while(i < proc_list.at(newP-1).resource_allocation.size()){
+                cout<<"enter new resource allocation for process "<<i+1<<": ";
+                cin>>proc_list.at(newP-1).resource_allocation.at(i);
+                i++;
+            }
+            showMatrices(proc_list, proc_list.size(), 1);
+            showMatrices(proc_list, proc_list.size(), 2);
+            showMatrices(proc_list, proc_list.size(), 3);
+            deadlockAvoidance(proc_list, needed_resources, avail_resources);
         }
     }
 
