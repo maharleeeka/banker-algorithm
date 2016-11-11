@@ -10,8 +10,8 @@ public:
     int allocation;
     bool isDone;
     bool isDeadlock;
-    int* resource_allocation;
-    int* maximum_demand;
+    vector<int> resource_allocation;
+    vector<int> maximum_demand;
 
     Process(){
         processNo = 0;
@@ -86,9 +86,10 @@ int main(){
             cin>>n;
             cout<<"Enter number of resources: ";
             cin>>noOfResources;
-            int* res_alloc = new int[noOfResources];
-            int* max_demand = new int[noOfResources];
-            int* avail_resources = new int[noOfResources];
+            vector<int> res_alloc;
+            //int* max_demand = new int[noOfResources];
+            //int* avail_resources = new int[noOfResources];
+            int input;
 
 
             cout<<"\nRESOURCE ALLOCATION"<<endl;
@@ -98,9 +99,10 @@ int main(){
                 cout<<"PROCESS NO "<<i<<endl;
                 for(int j = 1; j <= noOfResources; j++){
                     cout<<"\tresource allocation "<<j<<": ";
-                    cin>>res_alloc[j-1];
-                    cout<<res_alloc[j-1]<<endl;
+                    cin>>input;
+                    res_alloc.push_back(input);
                 }
+                pr.processNo = i;
                 pr.resource_allocation = res_alloc;
                 process.push_back(pr);
                 showGrid(process,noOfResources);
@@ -195,13 +197,12 @@ void deadlockPrevention(vector<Process> process, int resources){
 
 void showGrid(vector<Process> proc_list, int n){
 
-    int _size = proc_list.size(), x = 0;
+    int x = 0;
     while(x < proc_list.size()){
         Process pr = proc_list.at(x);
-        cout<<"P" <<x+1<<" ";
-        int* temp_arr = pr.resource_allocation;
+        cout<<pr.processNo<<" ";
         for(int i = 0; i < n; i++){
-            cout<<temp_arr[i]<<" | ";
+            cout<<pr.resource_allocation.at(i)<<" | ";
         }
         x++;
         cout<<endl;
