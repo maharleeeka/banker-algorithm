@@ -36,6 +36,11 @@ public:
 
 void deadlockPrevention(vector<Process>, int);
 void showGrid(vector<Process>, int);
+void deadlockAvoidance(vector<Process>, vector<int>, int[]);
+bool checkAllProcess(vector<Process>, int*);
+bool checkAllocation(vector<int>, int*);
+int* addResources(vector<int>, int*);
+bool checkIfAllDone(vector<Process>);
 
 int main(){
 
@@ -90,7 +95,6 @@ int main(){
             vector<int> res_alloc;
             vector<int> max_demand;
             vector<int> needed;
-            //int* max_demand = new int[noOfResources];
             int avail_resources[noOfResources];
             int input;
 
@@ -148,6 +152,7 @@ int main(){
 
 
         showGrid(process,noOfResources);
+        deadlockAvoidance(process, needed, avail_resources);
         }if(choice == 3){
             cout<<"*****BYE BYE BYE*****\n\n";
             break;
@@ -216,14 +221,14 @@ void deadlockPrevention(vector<Process> process, int resources){
     cout<<endl;
 }
 
-void showGrid(vector<Process> proc_list, int n){//n = no of resources
+void showGrid(vector<Process> proc_list, int n){
 
     int i = 0;
     cout<<"\nResource Allocation"<<endl;
     while(i < proc_list.size()){
         Process pr = proc_list.at(i);
         cout<<"P"<<pr.processNo<<" ";
-        for(int j = 0; j < pr.resource_allocation.size(); j++){ //prints the elements in resource allocation vector of a process
+        for(int j = 0; j < pr.resource_allocation.size(); j++){
             cout<<" | "<<pr.resource_allocation.at(j);
         }
         i++;
@@ -235,7 +240,7 @@ void showGrid(vector<Process> proc_list, int n){//n = no of resources
     while(i < proc_list.size()){
         Process pr = proc_list.at(i);
         cout<<"P"<<pr.processNo<<" ";
-        for(int j = 0; j < pr.maximum_demand.size(); j++){ //prints the elements in resource allocation vector of a process
+        for(int j = 0; j < pr.maximum_demand.size(); j++){
             cout<<" | "<<pr.maximum_demand.at(j);
         }
         i++;
@@ -247,7 +252,7 @@ void showGrid(vector<Process> proc_list, int n){//n = no of resources
     while(i < proc_list.size()){
         Process pr = proc_list.at(i);
         cout<<"P"<<pr.processNo<<" ";
-        for(int j = 0; j < pr.needed_resources.size(); j++){ //prints the elements in resource allocation vector of a process
+        for(int j = 0; j < pr.needed_resources.size(); j++){
             cout<<" | "<<pr.needed_resources.at(j);
         }
         i++;
@@ -255,4 +260,74 @@ void showGrid(vector<Process> proc_list, int n){//n = no of resources
     }
 }
 
+void deadlockAvoidance(vector<Process> proc_list, vector<int> needed_resources, int* avail_resources){
+    bool processing = true;
+    int i = 0;
+    vector<int> temp;
+    string safe_sequence = "< ";
+    while(processing){
+        temp = proc_list.at(i).resource_allocation;
+        if(checkAllProcess(proc_list, avail_resources)){
+            cout<<"\nDEADLOCK\n";
+            safe_sequence = " ";
+            processing = false;
+        }else{
+            if(checkAllocation(temp, avail_resources)){
+                proc_list.at(i).isDone = true;
+                avail_resources = addResources(temp, avail_resources);
+                safe_sequence += proc_list.at(i).processNo + " ";
+            }
+        }
+        if(checkIfAllDone(proc_list)){
+            processing = false;
+        }
+        i++;
+        if(i >= proc_list.size()){
+            i = 0;
+        }
+    }
+    cout<<"\nsafe sequence: "<<safe_sequence;
+}
 
+bool checkAllProcess(vector<Process> proc_list, int* avail_resources){
+    vector<int> temp;
+    int ctr = 0;
+    for(int i = 0; i < proc_list.size(); i++){
+        cout<<"Checking all processes for deadlock...\n";
+        temp = proc_list.at(i).resource_allocation;
+        if(checkAllocation(temp, avail_resources)){
+            cout<<"A process can still be executed...\n";
+            return false;
+        }
+    }
+    return true;
+}
+
+bool checkAllocation(vector<int> proc_allocation, int* avail_resources){
+    for(int i = 0; i < proc_allocation.size(); i++){
+        //cout<<"Checking current process allocation...\n";
+        if(proc_allocation.at(i)>avail_resources[i]){
+            return true;
+        }
+    }
+    return false;
+}
+
+int* addResources(vector<int> resource, int* available){
+    cout<<"Adding resources...\n";
+    for(int i = 0; i < resource.size(); i++){
+        available[i] += resource.at(i);
+    }
+    return available;
+}
+
+bool checkIfAllDone(vector<Process> proc_list){
+
+    for(int i = 0; i < proc_list.size(); i++){
+        if(!proc_list.at(i).isDone){
+            return false;
+        }
+    }
+
+    return true;
+}
