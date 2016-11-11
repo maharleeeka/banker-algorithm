@@ -87,8 +87,9 @@ int main(){
             cout<<"Enter number of resources: ";
             cin>>noOfResources;
             vector<int> res_alloc;
+            vector<int> max_demand;
             //int* max_demand = new int[noOfResources];
-            //int* avail_resources = new int[noOfResources];
+            int avail_resources[noOfResources];
             int input;
 
 
@@ -105,28 +106,33 @@ int main(){
                 pr.processNo = i;
                 pr.resource_allocation = res_alloc;
                 process.push_back(pr);
-                showGrid(process,noOfResources);
+                res_alloc.clear();
+
             }
-            /*cout<<"\nMAXIMUM DEMAND"<<endl;
+
+            cout<<"\nMAXIMUM DEMAND"<<endl;
+            Process pr;
             for(int i = 1; i<=n; i++){
-                Process pr = process.at(i-1);
+                pr = process.at(i-1);
                 cout<<endl;
                 cout<<"PROCESS NO "<<i<<endl;
                 for(int j = 1; j <= noOfResources; j++){
                     cout<<"\tmaximum demand "<<j<<": ";
-                    cin>>max_demand[j-1];
+                    cin>>input;
+                    max_demand.push_back(input);
                 }
                 pr.maximum_demand = max_demand;
+                max_demand.clear();
             }
 
             cout<<"\nAVAILABLE RESOURCES"<<endl;
             for(int i = 1; i <= noOfResources; i++){
                 cout<<"resource "<<i<<": ";
                 cin>>avail_resources[i-1];
-            }*/
+            }
 
 
-
+        showGrid(process,noOfResources);
         }if(choice == 3){
             cout<<"*****BYE BYE BYE*****\n\n";
             break;
@@ -195,17 +201,30 @@ void deadlockPrevention(vector<Process> process, int resources){
     cout<<endl;
 }
 
-void showGrid(vector<Process> proc_list, int n){
+void showGrid(vector<Process> proc_list, int n){//n = no of resources
 
-    int x = 0;
-    while(x < proc_list.size()){
-        Process pr = proc_list.at(x);
+    int i = 0;
+    cout<<"\nResource Allocation"<<endl;
+    while(i < proc_list.size()){
+        Process pr = proc_list.at(i);
         cout<<pr.processNo<<" ";
-        for(int i = 0; i < n; i++){
-            cout<<pr.resource_allocation.at(i)<<" | ";
+        for(int j = 0; j < pr.resource_allocation.size(); j++){ //prints the elements in resource allocation vector of a process
+            cout<<pr.resource_allocation.at(j)<<" | ";
         }
-        x++;
+        i++;
         cout<<endl;
     }
 
+    i = 0;
+    cout<<"\nMaximum Demand"<<endl;
+    while(i < proc_list.size()){
+        Process pr = proc_list.at(i);
+        cout<<pr.processNo<<" ";
+        for(int j = 0; j < pr.maximum_demand.size(); j++){ //prints the elements in resource allocation vector of a process
+            cout<<"here\n";
+            cout<<pr.maximum_demand.at(j)<<" | ";
+        }
+        i++;
+        cout<<endl;
+    }
 }
