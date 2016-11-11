@@ -111,9 +111,8 @@ int main(){
             }
 
             cout<<"\nMAXIMUM DEMAND"<<endl;
-            Process pr;
+
             for(int i = 1; i<=n; i++){
-                pr = process.at(i-1);
                 cout<<endl;
                 cout<<"PROCESS NO "<<i<<endl;
                 for(int j = 1; j <= noOfResources; j++){
@@ -121,7 +120,7 @@ int main(){
                     cin>>input;
                     max_demand.push_back(input);
                 }
-                pr.maximum_demand = max_demand;
+                process.at(i-1).maximum_demand = max_demand;
                 max_demand.clear();
             }
 
@@ -207,9 +206,9 @@ void showGrid(vector<Process> proc_list, int n){//n = no of resources
     cout<<"\nResource Allocation"<<endl;
     while(i < proc_list.size()){
         Process pr = proc_list.at(i);
-        cout<<pr.processNo<<" ";
+        cout<<"P"<<pr.processNo<<" ";
         for(int j = 0; j < pr.resource_allocation.size(); j++){ //prints the elements in resource allocation vector of a process
-            cout<<pr.resource_allocation.at(j)<<" | ";
+            cout<<" | "<<pr.resource_allocation.at(j);
         }
         i++;
         cout<<endl;
@@ -219,10 +218,9 @@ void showGrid(vector<Process> proc_list, int n){//n = no of resources
     cout<<"\nMaximum Demand"<<endl;
     while(i < proc_list.size()){
         Process pr = proc_list.at(i);
-        cout<<pr.processNo<<" ";
+        cout<<"P"<<pr.processNo<<" ";
         for(int j = 0; j < pr.maximum_demand.size(); j++){ //prints the elements in resource allocation vector of a process
-            cout<<"here\n";
-            cout<<pr.maximum_demand.at(j)<<" | ";
+            cout<<" | "<<pr.maximum_demand.at(j);
         }
         i++;
         cout<<endl;
